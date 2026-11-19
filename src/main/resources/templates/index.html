@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adicionar produto · Estoque de mídias</title>
+    <link rel="stylesheet" href="../static/estilo.css" th:href="@{/estilo.css}">
+</head>
+<body>
+    <main>
+        <header class="marca">
+            <span class="simbolo" aria-hidden="true">▦</span>
+            Estoque de mídias
+        </header>
+
+        <section class="painel" aria-labelledby="titulo-pagina">
+            <h1 id="titulo-pagina">Adicionar produto</h1>
+            <p class="descricao">Cadastre um jogo, uma série ou um filme no estoque.</p>
+
+            <p class="aviso sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></p>
+            <p class="aviso erro" role="alert" th:if="${erro}" th:text="${erro}"></p>
+
+            <form method="post" th:action="@{/}">
+                <div class="campo">
+                    <label for="titulo">Título</label>
+                    <input id="titulo" name="titulo" type="text" maxlength="120" required
+                           placeholder="Digite o título" th:value="${titulo}">
+                </div>
+
+                <fieldset>
+                    <legend>Categoria</legend>
+                    <div class="categorias">
+                        <label class="opcao" th:each="tipo : ${categorias}">
+                            <input type="radio" name="categoria" value="JOGO" required
+                                   th:value="${tipo.name()}" th:checked="${tipo.name() == categoria}">
+                            <span th:text="${tipo.rotulo}">Jogo</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="campo">
+                    <label for="quantidade">Quantidade</label>
+                    <input id="quantidade" name="quantidade" type="number" min="1" max="2147483647"
+                           step="1" value="1" required th:value="${quantidade == null ? 1 : quantidade}">
+                </div>
+
+                <button type="submit"><span aria-hidden="true">+</span> Adicionar produto</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
